@@ -86,7 +86,7 @@ class LaravelInertiaTranslationsCommand extends Command
     public function exportTranslationsTSXFile(array $languages)
     {
         sort($languages);
-                              
+
         // Create resources/js/utils directory if it doesn't exist
         $utilsPath = resource_path('js/lib');
         File::ensureDirectoryExists($utilsPath);
@@ -98,7 +98,7 @@ class LaravelInertiaTranslationsCommand extends Command
         }
 
         $languages_list = implode(', ', $languages);
-                        
+
         // Create the translations.tsx file
         $translationsContent = <<<TSX
 {$import_files}
@@ -118,7 +118,7 @@ export const __ = (key: TranslationKey) => {
 
 TSX;
 
-        File::put($utilsPath . '/translations.tsx', $translationsContent);
-    
+        File::put($utilsPath.'/translations.tsx', $translationsContent);
+
     }
 }

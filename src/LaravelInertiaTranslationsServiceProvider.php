@@ -2,9 +2,9 @@
 
 namespace CodeCNG\LaravelInertiaTranslations;
 
+use CodeCNG\LaravelInertiaTranslations\Commands\LaravelInertiaTranslationsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use CodeCNG\LaravelInertiaTranslations\Commands\LaravelInertiaTranslationsCommand;
 
 class LaravelInertiaTranslationsServiceProvider extends PackageServiceProvider
 {
