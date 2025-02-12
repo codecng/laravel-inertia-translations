@@ -6,15 +6,18 @@
 A zero-configuration Laravel package that automatically exports your Laravel translations for use with Inertia.js and React. Just install and run a single command!
 
 ## Installation
+```
 composer require codecng/laravel-inertia-translations
+```
 
 That's it! No additional configuration needed.
 
 ## Usage
 
 Whenever you add or modify translations in your Laravel application, simply run:
-
+```
 php artisan translate
+```
 
 This command will:
 1. Check if language files exist (if not, it will publish them automatically)
