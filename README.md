@@ -1,84 +1,82 @@
-# Provides translations for an Inertia Based Project
+# Laravel Inertia Translations
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codecng/laravel-inertia-translations.svg?style=flat-square)](https://packagist.org/packages/codecng/laravel-inertia-translations)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/codecng/laravel-inertia-translations/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/codecng/laravel-inertia-translations/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codecng/laravel-inertia-translations/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codecng/laravel-inertia-translations/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/codecng/laravel-inertia-translations.svg?style=flat-square)](https://packagist.org/packages/codecng/laravel-inertia-translations)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-inertia-translations.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-inertia-translations)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+A zero-configuration Laravel package that automatically exports your Laravel translations for use with Inertia.js and React. Just install and run a single command!
 
 ## Installation
-
-You can install the package via composer:
-
-```bash
 composer require codecng/laravel-inertia-translations
-```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-inertia-translations-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-inertia-translations-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-inertia-translations-views"
-```
+That's it! No additional configuration needed.
 
 ## Usage
 
-```php
-$laravelInertiaTranslations = new CodeCNG\LaravelInertiaTranslations();
-echo $laravelInertiaTranslations->echoPhrase('Hello, CodeCNG!');
+Whenever you add or modify translations in your Laravel application, simply run:
+
+php artisan translate
+
+This command will:
+1. Check if language files exist (if not, it will publish them automatically)
+2. Process all your translation files (both JSON and PHP)
+3. Generate JSON translation files in `resources/js/lang/`
+4. Create a TypeScript utility file in `resources/js/lib/translations.tsx`
+
+### What Gets Processed
+
+- ✅ JSON files in `lang/` directory
+- ✅ PHP files in language subdirectories
+- ✅ Automatically merges all translations by locale
+
+### Generated Files Structure
+```
+resources/js/
+├── lang/
+│   ├── en.json
+│   ├── es.json
+│   └── fr.json
+└── lib/
+    └── translations.tsx
 ```
 
-## Testing
+## Using Translations in React
 
-```bash
-composer test
+The package provides a simple translation helper that you can use in your React components:
 ```
+import { __ } from '@/lib/translations'
 
-## Changelog
+function Welcome() {
+    return (
+        <div>
+            <h1>{__('welcome.title')}</h1>
+            <p>{__('welcome.message')}</p>
+            <p>{__('Users')}</p>
+        </div>
+    )
+}
+```
+### Inertia Setup
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Make sure to include the current language in your Inertia shared props (in your HandleInertiaRequests middleware):
+```
+public function share(Request $request): array
+{
+    return array_merge(parent::share($request), [
+        'language' => request()->user()->language ?? 'en',
+    ]);
+}
+```
+## Benefits
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+- 🚀 Zero configuration required
+- 🔄 Simple one-command updates
+- 🛠 Works with both JSON and PHP translation files
 
 ## Credits
 
-- [Christian Negron](https://github.com/ChristianJoniel)
+- [Christian Negron](https://github.com/codecng)
 - [All Contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information. 
