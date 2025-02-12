@@ -27,19 +27,16 @@ class LaravelInertiaTranslationsCommand extends Command
     public function handle(): int
     {
 
-
         $langPath = lang_path();
-
-
 
         $outputPath = resource_path('js/lang');
 
-        if (!File::exists($langPath)) {
+        if (! File::exists($langPath)) {
             $this->info("Language folder not found: $langPath");
-            $this->info("Publishing language files...");
+            $this->info('Publishing language files...');
             // return self::FAILURE;
             $this->call('lang:publish');
-            $this->info("Language files published successfully.");
+            $this->info('Language files published successfully.');
         }
 
         File::ensureDirectoryExists($outputPath, 0755);
@@ -57,7 +54,7 @@ class LaravelInertiaTranslationsCommand extends Command
         // Handle subdirectories
         foreach (File::directories($langPath) as $langDir) {
             $locale = basename($langDir);
-            if (!isset($translations[$locale])) {
+            if (! isset($translations[$locale])) {
                 $translations[$locale] = [];
             }
 
@@ -80,6 +77,7 @@ class LaravelInertiaTranslationsCommand extends Command
         }
 
         $this->info("All translations have been exported to $outputPath");
+
         return self::SUCCESS;
     }
 }

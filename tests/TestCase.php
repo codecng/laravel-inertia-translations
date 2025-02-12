@@ -2,9 +2,9 @@
 
 namespace CodeCNG\LaravelInertiaTranslations\Tests;
 
+use CodeCNG\LaravelInertiaTranslations\LaravelInertiaTranslationsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use CodeCNG\LaravelInertiaTranslations\LaravelInertiaTranslationsServiceProvider;
 
 class TestCase extends Orchestra
 {
