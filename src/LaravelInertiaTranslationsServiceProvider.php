@@ -17,7 +17,6 @@ class LaravelInertiaTranslationsServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-inertia-translations')
-            ->hasMigration('create_laravel_inertia_translations_table')
             ->hasCommand(LaravelInertiaTranslationsCommand::class);
     }
 }
