@@ -44,7 +44,7 @@ resources/js/
 
 ## Framework Support
 
-### React with JavaScript
+### React
 ```jsx
 import { __ } from '@/lib/translations'
 
@@ -59,59 +59,18 @@ function Welcome() {
 }
 ```
 
-### React with TypeScript
-```tsx
-import { __ } from '@/lib/translations'
-
-const Welcome: React.FC = () => {
-    return (
-        <div>
-            <h1>{__('welcome.title')}</h1>
-            <p>{__('welcome.message', { name: 'John' })}</p>
-        </div>
-    )
-}
-```
-
-### Vue with JavaScript
+### Vue
 ```vue
+<script setup>
+import { __ } from '@/lib/translations'
+</script>
+
 <template>
     <div>
         <h1>{{ __('welcome.title') }}</h1>
         <p>{{ __('welcome.message') }}</p>
     </div>
 </template>
-
-<script>
-import { __ } from '@/lib/translations'
-
-export default {
-    methods: {
-        __
-    }
-}
-</script>
-```
-
-### Vue with TypeScript
-```vue
-<template>
-    <div>
-        <h1>{{ __('welcome.title') }}</h1>
-        <p>{{ __('welcome.message', { name: 'John' }) }}</p>
-    </div>
-</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { __ } from '@/lib/translations'
-
-export default defineComponent({
-    methods: {
-        __
-    }
-})
-</script>
 ```
 
 ### Inertia Setup
