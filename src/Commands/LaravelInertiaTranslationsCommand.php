@@ -2,9 +2,10 @@
 
 namespace CodeCNG\LaravelInertiaTranslations\Commands;
 
+use CodeCNG\LaravelInertiaTranslations\Stacks\VueStack;
+use CodeCNG\LaravelInertiaTranslations\Stacks\ReactStack;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-
 class LaravelInertiaTranslationsCommand extends Command
 {
     /**
@@ -75,50 +76,28 @@ class LaravelInertiaTranslationsCommand extends Command
             );
             $this->info("Generated translations for: $locale");
         }
-
-        $this->exportTranslationsTSXFile(array_keys($translations));
-
         $this->info("All translations have been exported to $outputPath");
+        
+        $this->exportTranslationsFile(array_keys($translations));
+        $this->info('Translation helper function generated successfully.');
+
+
 
         return self::SUCCESS;
     }
-
-    public function exportTranslationsTSXFile(array $languages)
+    public function exportTranslationsFile(array $languages)
     {
-        sort($languages);
+        $appPath = resource_path('js');
 
-        // Create resources/js/utils directory if it doesn't exist
-        $utilsPath = resource_path('js/lib');
-        File::ensureDirectoryExists($utilsPath);
-
-        $import_files = '';
-
-        foreach ($languages as $language) {
-            $import_files .= "import $language from '@/lang/$language.json';\n";
+        if (File::exists($appPath . '/app.tsx')) {
+            ReactStack::generateTypescriptFile($languages, 'translations.tsx'); // react with typescript
+        }else if (File::exists($appPath . '/app.jsx')) {
+            ReactStack::generateFile($languages, 'translations.jsx'); // react
+        } else if (File::exists($appPath . '/app.js')) {
+            VueStack::generateFile($languages, 'translations.js'); // vue
+        } else if (File::exists($appPath . '/app.ts')) {
+            VueStack::generateTypescriptFile($languages, 'translations.ts'); // typescript
         }
-
-        $languages_list = implode(', ', $languages);
-
-        // Create the translations.tsx file
-        $translationsContent = <<<TSX
-{$import_files}
-import { usePage } from '@inertiajs/react';
-
-type TranslationKey = string;
-
-// @ts-expect-error This is a valid use
-const translations: Record<string, Record<string, string>> = { {$languages_list} };
-
-export const __ = (key: TranslationKey) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { language } = usePage().props ?? 'en';
-
-  return translations[language]?.[key] || key;
-};
-
-TSX;
-
-        File::put($utilsPath.'/translations.tsx', $translationsContent);
-
     }
+
 }
