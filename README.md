@@ -3,10 +3,10 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codecng/laravel-inertia-translations.svg?style=flat-square)](https://packagist.org/packages/codecng/laravel-inertia-translations)
 [![Total Downloads](https://img.shields.io/packagist/dt/codecng/laravel-inertia-translations.svg?style=flat-square)](https://packagist.org/packages/codecng/laravel-inertia-translations)
 
-A zero-configuration Laravel package that automatically exports your Laravel translations for use with Inertia.js and React. Just install and run a single command!
+A zero-configuration Laravel package that automatically exports your Laravel translations for use with Inertia.js. Supports both React and Vue, with full TypeScript support!
 
 ## Installation
-```
+```bash
 composer require codecng/laravel-inertia-translations
 ```
 
@@ -15,7 +15,7 @@ That's it! No additional configuration needed.
 ## Usage
 
 Whenever you add or modify translations in your Laravel application, simply run:
-```
+```bash
 php artisan translate
 ```
 
@@ -23,7 +23,7 @@ This command will:
 1. Check if language files exist (if not, it will publish them automatically)
 2. Process all your translation files (both JSON and PHP)
 3. Generate JSON translation files in `resources/js/lang/`
-4. Create a TypeScript utility file in `resources/js/lib/translations.tsx`
+4. Create appropriate utility files based on your stack (React/Vue + TypeScript)
 
 ### What Gets Processed
 
@@ -39,13 +39,13 @@ resources/js/
 │   ├── es.json
 │   └── fr.json
 └── lib/
-    └── translations.tsx
+    └── translations.(js|ts|jsx|tsx)  # Based on your stack
 ```
 
-## Using Translations in React
+## Framework Support
 
-The package provides a simple translation helper that you can use in your React components:
-```
+### React with JavaScript
+```jsx
 import { __ } from '@/lib/translations'
 
 function Welcome() {
@@ -58,22 +58,92 @@ function Welcome() {
     )
 }
 ```
+
+### React with TypeScript
+```tsx
+import { __ } from '@/lib/translations'
+
+const Welcome: React.FC = () => {
+    return (
+        <div>
+            <h1>{__('welcome.title')}</h1>
+            <p>{__('welcome.message', { name: 'John' })}</p>
+        </div>
+    )
+}
+```
+
+### Vue with JavaScript
+```vue
+<template>
+    <div>
+        <h1>{{ __('welcome.title') }}</h1>
+        <p>{{ __('welcome.message') }}</p>
+    </div>
+</template>
+
+<script>
+import { __ } from '@/lib/translations'
+
+export default {
+    methods: {
+        __
+    }
+}
+</script>
+```
+
+### Vue with TypeScript
+```vue
+<template>
+    <div>
+        <h1>{{ __('welcome.title') }}</h1>
+        <p>{{ __('welcome.message', { name: 'John' }) }}</p>
+    </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { __ } from '@/lib/translations'
+
+export default defineComponent({
+    methods: {
+        __
+    }
+})
+</script>
+```
+
 ### Inertia Setup
 
 Make sure to include the current language in your Inertia shared props (in your HandleInertiaRequests middleware):
-```
+```php
 public function share(Request $request): array
 {
     return array_merge(parent::share($request), [
-        'language' => request()->user()->language ?? 'en',
+        'language' => request()->user()->language ?? app()->getLocale(),
     ]);
 }
 ```
+
+## Type Support
+
+When using TypeScript, you get full type support for your translation keys:
+
+```typescript
+// The __ function is fully typed
+__('welcome.title') // ✓ Valid
+__('invalid.key')   // ✗ TypeScript error
+```
+
 ## Benefits
 
 - 🚀 Zero configuration required
 - 🔄 Simple one-command updates
 - 🛠 Works with both JSON and PHP translation files
+- 💪 Full TypeScript support
+- ⚡️ Supports both React and Vue
+- 🔍 Automatic type generation for translation keys
 
 ## Credits
 
