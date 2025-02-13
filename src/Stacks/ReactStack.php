@@ -6,9 +6,9 @@ use CodeCNG\LaravelInertiaTranslations\Contracts\StackContract;
 
 class ReactStack extends StackContract
 {
-  protected static function javascriptFile(string $lang_csv, string $import_files): string
-  {
-    return <<<JSX
+    protected static function javascriptFile(string $lang_csv, string $import_files): string
+    {
+        return <<<JSX
 {$import_files}
 import { usePage } from '@inertiajs/react';
 
@@ -22,11 +22,11 @@ export const __ = (key) => {
 };
 
 JSX;
-  }
+    }
 
-  protected static function typescriptFile(string $lang_csv, string $import_files): string
-  {
-    return <<<TSX
+    protected static function typescriptFile(string $lang_csv, string $import_files): string
+    {
+        return <<<TSX
     {$import_files}
     import { usePage } from '@inertiajs/react';
     
@@ -43,5 +43,5 @@ JSX;
     };
     
     TSX;
-  }
+    }
 }

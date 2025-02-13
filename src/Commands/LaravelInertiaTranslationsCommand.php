@@ -2,10 +2,11 @@
 
 namespace CodeCNG\LaravelInertiaTranslations\Commands;
 
-use CodeCNG\LaravelInertiaTranslations\Stacks\VueStack;
 use CodeCNG\LaravelInertiaTranslations\Stacks\ReactStack;
+use CodeCNG\LaravelInertiaTranslations\Stacks\VueStack;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+
 class LaravelInertiaTranslationsCommand extends Command
 {
     /**
@@ -77,27 +78,25 @@ class LaravelInertiaTranslationsCommand extends Command
             $this->info("Generated translations for: $locale");
         }
         $this->info("All translations have been exported to $outputPath");
-        
+
         $this->exportTranslationsFile(array_keys($translations));
         $this->info('Translation helper function generated successfully.');
 
-
-
         return self::SUCCESS;
     }
+
     public function exportTranslationsFile(array $languages)
     {
         $appPath = resource_path('js');
 
-        if (File::exists($appPath . '/app.tsx')) {
+        if (File::exists($appPath.'/app.tsx')) {
             ReactStack::generateTypescriptFile($languages, 'translations.tsx'); // react with typescript
-        }else if (File::exists($appPath . '/app.jsx')) {
+        } elseif (File::exists($appPath.'/app.jsx')) {
             ReactStack::generateFile($languages, 'translations.jsx'); // react
-        } else if (File::exists($appPath . '/app.js')) {
+        } elseif (File::exists($appPath.'/app.js')) {
             VueStack::generateFile($languages, 'translations.js'); // vue
-        } else if (File::exists($appPath . '/app.ts')) {
+        } elseif (File::exists($appPath.'/app.ts')) {
             VueStack::generateTypescriptFile($languages, 'translations.ts'); // typescript
         }
     }
-
 }

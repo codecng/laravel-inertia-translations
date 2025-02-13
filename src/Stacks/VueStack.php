@@ -6,9 +6,9 @@ use CodeCNG\LaravelInertiaTranslations\Contracts\StackContract;
 
 class VueStack extends StackContract
 {
-  protected static function javascriptFile(string $lang_csv, string $import_files): string
-  {
-    return <<<VUE
+    protected static function javascriptFile(string $lang_csv, string $import_files): string
+    {
+        return <<<VUE
 {$import_files}
 import { usePage } from '@inertiajs/vue3'
 
@@ -23,11 +23,11 @@ export const __ = (key) => {
 };
 
 VUE;
-  }
+    }
 
-  protected static function typescriptFile(string $lang_csv, string $import_files): string
-  {
-    return <<<TS
+    protected static function typescriptFile(string $lang_csv, string $import_files): string
+    {
+        return <<<TS
 {$import_files}
 import { usePage } from '@inertiajs/vue3';
 
@@ -46,5 +46,5 @@ export const __ = (key: TranslationKey) => {
 };
 
 TS;
-  }
+    }
 }
