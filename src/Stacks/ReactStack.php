@@ -39,7 +39,11 @@ JSX;
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { language } = usePage().props ?? 'en';
     
-      return translations[language]?.[key] || key;
+      if (!translations[language]?.[key]) {
+        return key;
+      }
+      
+      return translations[language][key];
     };
     
     TSX;
