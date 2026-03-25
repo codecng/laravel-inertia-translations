@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-inertia-translations` will be documented in this file.
 
+## v1.2.1 - 2026-03-25
+
+Fix command name
+
 ## v1.1.0 - 2025-02-26
 
 Added support for Laravel 12
