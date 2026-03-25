@@ -14,7 +14,7 @@ class LaravelInertiaTranslationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'translate';
+    protected $signature = 'langfinder:generate';
 
     /**
      * The console command description.
